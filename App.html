@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 24.8.4.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+		pre { font-family: "Liberation Mono", monospace; font-size: 10pt; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre>import React, { useState } from &quot;react&quot;;
+
+export default function App() {
+  const [cart, setCart] = useState([]);
+  const [activeCategory, setActiveCategory] = useState(&quot;All&quot;);
+  const [searchTerm, setSearchTerm] = useState(&quot;&quot;);
+
+  const weapons = [
+    {
+      id: 1,
+      name: &quot;Kilvish Shield&quot;,
+      price: 299.99,
+      category: &quot;Defensive&quot;,
+      image: &quot;https://i.postimg.cc/KYLqgGXH/caeb8471-b390-4978-ba93-04d2539cdc03.png &quot;,
+    },
+    {
+      id: 2,
+      name: &quot;Khema Fire Shaft&quot;,
+      price: 499.99,
+      category: &quot;Offensive&quot;,
+      image: &quot;https://i.postimg.cc/k5n6WsLP/41836533-5d9b-458a-a6bb-89c5ebe2c6fe.png &quot;,
+    },
+    {
+      id: 3,
+      name: &quot;Andhera Kayam Torch&quot;,
+      price: 199.5,
+      category: &quot;Utility&quot;,
+      image: &quot;https://i.postimg.cc/ht0bFXBg/f00edccf-f085-4171-85c3-76d476b29ab1.png &quot;,
+    },
+    {
+      id: 4,
+      name: &quot;Pushpe Flower Bomb&quot;,
+      price: 349.99,
+      category: &quot;Explosive&quot;,
+      image: &quot;https://i.postimg.cc/SKNLmmS9/972e5909-3d64-40f0-8465-0af89e85e4f1.png &quot;,
+    },
+    {
+      id: 5,
+      name: &quot;Kilvish Blackhole Door&quot;,
+      price: 799.0,
+      category: &quot;Defensive&quot;,
+      image: &quot;https://i.postimg.cc/fLVx050T/dcb4b715-6a73-441a-8d46-e5a1e18b5136.png &quot;,
+    },
+    {
+      id: 6,
+      name: &quot;Khamsingh Laser Eyes&quot;,
+      price: 899.99,
+      category: &quot;Offensive&quot;,
+      image: &quot;https://i.postimg.cc/76jS17g1/dd80152a-a281-49e6-9acd-e31e43e200e2.png &quot;,
+    },
+    {
+      id: 7,
+      name: &quot;Pushpe Mindcontrol Device&quot;,
+      price: 599.99,
+      category: &quot;Utility&quot;,
+      image: &quot;https://i.postimg.cc/pr8zsTZw/17ac163c-9af7-43fd-9ef2-4ace3443ee1a.png &quot;,
+    },
+  ];
+
+  const categories = [&quot;All&quot;, ...new Set(weapons.map((item) =&gt; item.category))];
+
+  const filteredWeapons = weapons.filter(
+    (item) =&gt;
+      (activeCategory === &quot;All&quot; || item.category === activeCategory) &amp;&amp;
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const addToCart = (item) =&gt; {
+    setCart((prev) =&gt; [...prev, item]);
+  };
+
+  return (
+    &lt;div className=&quot;min-h-screen bg-gray-900 text-white&quot;&gt;
+      {/* Header */}
+      &lt;header className=&quot;bg-indigo-700 shadow-md sticky top-0 z-50&quot;&gt;
+        &lt;div className=&quot;container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4&quot;&gt;
+          &lt;h1 className=&quot;text-2xl font-bold tracking-tight&quot;&gt;Weapon Arsenal&lt;/h1&gt;
+          &lt;div className=&quot;w-full md:w-64 relative&quot;&gt;
+            &lt;input
+              type=&quot;text&quot;
+              placeholder=&quot;Search weapons...&quot;
+              value={searchTerm}
+              onChange={(e) =&gt; setSearchTerm(e.target.value)}
+              className=&quot;w-full pl-10 pr-4 py-2 rounded-full text-gray-800 focus:outline-none&quot;
+            /&gt;
+            &lt;svg
+              className=&quot;absolute left-3 top-2.5 w-5 h-5 text-gray-500&quot;
+              fill=&quot;none&quot;
+              stroke=&quot;currentColor&quot;
+              viewBox=&quot;0 0 24 24&quot;
+            &gt;
+              &lt;path
+                strokeLinecap=&quot;round&quot;
+                strokeLinejoin=&quot;round&quot;
+                strokeWidth={2}
+                d=&quot;M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z&quot;
+              /&gt;
+            &lt;/svg&gt;
+          &lt;/div&gt;
+          &lt;div className=&quot;relative&quot;&gt;
+            &lt;button className=&quot;flex items-center space-x-2 bg-white text-indigo-700 px-4 py-2 rounded-full hover:bg-indigo-50 transition&quot;&gt;
+              &lt;svg
+                className=&quot;w-5 h-5&quot;
+                fill=&quot;none&quot;
+                stroke=&quot;currentColor&quot;
+                viewBox=&quot;0 0 24 24&quot;
+              &gt;
+                &lt;path
+                  strokeLinecap=&quot;round&quot;
+                  strokeLinejoin=&quot;round&quot;
+                  strokeWidth={2}
+                  d=&quot;M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z&quot;
+                /&gt;
+              &lt;/svg&gt;
+              &lt;span&gt;Cart ({cart.length})&lt;/span&gt;
+            &lt;/button&gt;
+            {cart.length &gt; 0 &amp;&amp; (
+              &lt;div className=&quot;absolute right-0 mt-2 w-64 max-h-96 overflow-y-auto bg-gray-800 rounded-lg shadow-xl p-2 animate-fade-in&quot;&gt;
+                {cart.map((item, index) =&gt; (
+                  &lt;div
+                    key={index}
+                    className=&quot;flex items-center justify-between p-2 border-b border-gray-700&quot;
+                  &gt;
+                    &lt;p className=&quot;text-sm&quot;&gt;{item.name}&lt;/p&gt;
+                    &lt;p className=&quot;text-sm font-medium&quot;&gt;${item.price.toFixed(2)}&lt;/p&gt;
+                  &lt;/div&gt;
+                ))}
+                &lt;div className=&quot;p-2 pt-3 flex justify-between font-semibold border-t border-gray-700&quot;&gt;
+                  &lt;span&gt;Total:&lt;/span&gt;
+                  &lt;span&gt;
+                    $
+                    {cart
+                      .reduce((sum, item) =&gt; sum + item.price, 0)
+                      .toFixed(2)}
+                  &lt;/span&gt;
+                &lt;/div&gt;
+                &lt;button className=&quot;mt-2 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition&quot;&gt;
+                  Checkout
+                &lt;/button&gt;
+              &lt;/div&gt;
+            )}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/header&gt;
+
+      {/* Categories */}
+      &lt;section className=&quot;py-4 bg-gray-800 sticky top-16 z-40 shadow-sm&quot;&gt;
+        &lt;div className=&quot;container mx-auto px-4 overflow-x-auto flex space-x-4 pb-2&quot;&gt;
+          {categories.map((category, idx) =&gt; (
+            &lt;button
+              key={idx}
+              onClick={() =&gt; setActiveCategory(category)}
+              className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                activeCategory === category
+                  ? &quot;bg-indigo-600 text-white&quot;
+                  : &quot;bg-gray-700 text-gray-300 hover:bg-gray-600&quot;
+              }`}
+            &gt;
+              {category}
+            &lt;/button&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* Hero Section */}
+      &lt;section className=&quot;bg-gradient-to-r from-indigo-800 to-purple-900 py-12&quot;&gt;
+        &lt;div className=&quot;container mx-auto px-4 flex flex-col md:flex-row items-center&quot;&gt;
+          &lt;div className=&quot;md:w-1/2 mb-8 md:mb-0&quot;&gt;
+            &lt;h2 className=&quot;text-3xl md:text-4xl font-bold mb-4 leading-tight&quot;&gt;
+              Ultimate Weapon Collection for Modern Warriors
+            &lt;/h2&gt;
+            &lt;p className=&quot;text-lg opacity-90 mb-6&quot;&gt;
+              Discover the most powerful and legendary weapons at unbeatable prices.
+            &lt;/p&gt;
+            &lt;button className=&quot;bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition&quot;&gt;
+              Shop Now
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div className=&quot;md:w-1/2 flex justify-center&quot;&gt;
+            &lt;img
+              src=&quot;https://i.postimg.cc/m23MFcCP/3d75e3bd-d460-4666-bff7-bce9d76713aa.png &quot;
+              alt=&quot;Weapons&quot;
+              className=&quot;rounded-lg shadow-lg transform hover:scale-105 transition duration-300&quot;
+            /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* Products Grid */}
+      &lt;main className=&quot;container mx-auto px-4 py-12&quot;&gt;
+        &lt;h2 className=&quot;text-2xl font-bold mb-6 text-gray-200&quot;&gt;
+          {activeCategory === &quot;All&quot;
+            ? &quot;All Weapons&quot;
+            : `${activeCategory} Weapons`}
+        &lt;/h2&gt;
+        {filteredWeapons.length === 0 ? (
+          &lt;div className=&quot;text-center py-12&quot;&gt;
+            &lt;p className=&quot;text-gray-500 text-lg&quot;&gt;No weapons found.&lt;/p&gt;
+          &lt;/div&gt;
+        ) : (
+          &lt;div className=&quot;grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6&quot;&gt;
+            {filteredWeapons.map((item) =&gt; (
+              &lt;div
+                key={item.id}
+                className=&quot;bg-gray-800 rounded-lg shadow hover:shadow-xl transition-all overflow-hidden group&quot;
+              &gt;
+                &lt;div className=&quot;aspect-w-3 aspect-h-2&quot;&gt;
+                  &lt;img
+                    src={item.image}
+                    alt={item.name}
+                    className=&quot;w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105&quot;
+                  /&gt;
+                &lt;/div&gt;
+                &lt;div className=&quot;p-4&quot;&gt;
+                  &lt;div className=&quot;flex justify-between items-start mb-2&quot;&gt;
+                    &lt;h3 className=&quot;font-semibold text-lg&quot;&gt;{item.name}&lt;/h3&gt;
+                    &lt;span className=&quot;bg-indigo-100 text-indigo-800 text-xs font-semibold px-2 py-1 rounded&quot;&gt;
+                      {item.category}
+                    &lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;p className=&quot;text-indigo-400 font-bold mb-3&quot;&gt;${item.price.toFixed(2)}&lt;/p&gt;
+                  &lt;button
+                    onClick={() =&gt; addToCart(item)}
+                    className=&quot;w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition flex items-center justify-center space-x-2&quot;
+                  &gt;
+                    &lt;svg
+                      className=&quot;w-5 h-5&quot;
+                      fill=&quot;none&quot;
+                      stroke=&quot;currentColor&quot;
+                      viewBox=&quot;0 0 24 24&quot;
+                    &gt;
+                      &lt;path
+                        strokeLinecap=&quot;round&quot;
+                        strokeLinejoin=&quot;round&quot;
+                        strokeWidth={2}
+                        d=&quot;M12 6v6m0 0v6m0-6h6m-6 0H6&quot;
+                      /&gt;
+                    &lt;/svg&gt;
+                    &lt;span&gt;Add to Cart&lt;/span&gt;
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+        )}
+      &lt;/main&gt;
+
+      {/* Features Section */}
+      &lt;section className=&quot;bg-gray-800 py-12&quot;&gt;
+        &lt;div className=&quot;container mx-auto px-4&quot;&gt;
+          &lt;h2 className=&quot;text-2xl font-bold text-center mb-10 text-gray-200&quot;&gt;
+            Why Choose Our Arsenal?
+          &lt;/h2&gt;
+          &lt;div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-8&quot;&gt;
+            &lt;div className=&quot;bg-gray-700 p-6 rounded-lg shadow text-center&quot;&gt;
+              &lt;div className=&quot;w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-indigo-100 text-indigo-700 rounded-full&quot;&gt;
+                &lt;svg
+                  className=&quot;w-8 h-8&quot;
+                  fill=&quot;none&quot;
+                  stroke=&quot;currentColor&quot;
+                  viewBox=&quot;0 0 24 24&quot;
+                &gt;
+                  &lt;path
+                    strokeLinecap=&quot;round&quot;
+                    strokeLinejoin=&quot;round&quot;
+                    strokeWidth={2}
+                    d=&quot;M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z&quot;
+                  /&gt;
+                &lt;/svg&gt;
+              &lt;/div&gt;
+              &lt;h3 className=&quot;text-xl font-semibold mb-2&quot;&gt;Legendary Quality&lt;/h3&gt;
+              &lt;p className=&quot;text-gray-400&quot;&gt;
+                Each weapon is forged with ancient power and tested for battle readiness.
+              &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div className=&quot;bg-gray-700 p-6 rounded-lg shadow text-center&quot;&gt;
+              &lt;div className=&quot;w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-indigo-100 text-indigo-700 rounded-full&quot;&gt;
+                &lt;svg
+                  className=&quot;w-8 h-8&quot;
+                  fill=&quot;none&quot;
+                  stroke=&quot;currentColor&quot;
+                  viewBox=&quot;0 0 24 24&quot;
+                &gt;
+                  &lt;path
+                    strokeLinecap=&quot;round&quot;
+                    strokeLinejoin=&quot;round&quot;
+                    strokeWidth={2}
+                    d=&quot;M13 10V3L4 14h7v7l9-11h-7z&quot;
+                  /&gt;
+                &lt;/svg&gt;
+              &lt;/div&gt;
+              &lt;h3 className=&quot;text-xl font-semibold mb-2&quot;&gt;Fast Delivery&lt;/h3&gt;
+              &lt;p className=&quot;text-gray-400&quot;&gt;
+                Get your weapons delivered within hours using our interdimensional transport system.
+              &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div className=&quot;bg-gray-700 p-6 rounded-lg shadow text-center&quot;&gt;
+              &lt;div className=&quot;w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-indigo-100 text-indigo-700 rounded-full&quot;&gt;
+                &lt;svg
+                  className=&quot;w-8 h-8&quot;
+                  fill=&quot;none&quot;
+                  stroke=&quot;currentColor&quot;
+                  viewBox=&quot;0 0 24 24&quot;
+                &gt;
+                  &lt;path
+                    strokeLinecap=&quot;round&quot;
+                    strokeLinejoin=&quot;round&quot;
+                    strokeWidth={2}
+                    d=&quot;M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z&quot;
+                  /&gt;
+                &lt;/svg&gt;
+              &lt;/div&gt;
+              &lt;h3 className=&quot;text-xl font-semibold mb-2&quot;&gt;Epic Deals&lt;/h3&gt;
+              &lt;p className=&quot;text-gray-400&quot;&gt;
+                Legendary power doesn't have to cost a kingdom - get great deals daily!
+              &lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      {/* Footer */}
+      &lt;footer className=&quot;bg-gray-900 text-gray-400 py-10 mt-12&quot;&gt;
+        &lt;div className=&quot;container mx-auto px-4&quot;&gt;
+          &lt;div className=&quot;flex flex-col md:flex-row justify-between&quot;&gt;
+            &lt;div className=&quot;mb-6 md:mb-0&quot;&gt;
+              &lt;h3 className=&quot;text-xl font-bold mb-2 text-white&quot;&gt;Weapon Arsenal&lt;/h3&gt;
+              &lt;p className=&quot;max-w-xs&quot;&gt;
+                The ultimate arsenal for warriors of all realms. Powerful weapons, instant delivery.
+              &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;h3 className=&quot;text-lg font-semibold mb-4 text-white&quot;&gt;Quick Links&lt;/h3&gt;
+              &lt;ul className=&quot;space-y-2&quot;&gt;
+                &lt;li&gt;
+                  &lt;a href=&quot;#&quot; className=&quot;hover:text-white transition&quot;&gt;
+                    Home
+                  &lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                  &lt;a href=&quot;#&quot; className=&quot;hover:text-white transition&quot;&gt;
+                    Shop
+                  &lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                  &lt;a href=&quot;#&quot; className=&quot;hover:text-white transition&quot;&gt;
+                    About Us
+                  &lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                  &lt;a href=&quot;#&quot; className=&quot;hover:text-white transition&quot;&gt;
+                    Contact
+                  &lt;/a&gt;
+                &lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div className=&quot;border-t border-gray-700 mt-8 pt-6 text-center&quot;&gt;
+            &lt;p&gt;&amp;copy; {new Date().getFullYear()} Weapon Arsenal. All rights reserved.&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/footer&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+</body>
+</html>
